@@ -11,27 +11,34 @@ int main() {
     printf("> Enter string: ");
     fgets(str, MAXN, stdin);
 
-    char strFormat[MAXN];
-    char *word = strtok(str, " ");
-    while (word != NULL) {
-        printf ("%s\n", word);
-        strcat(strFormat, word);
-        if (strcmp(word, ".") != 0) {
-            strcat(strFormat, " ");
-        }
 
-        word = strtok (NULL, " ");
-    }
-
-    int n = strlen(strFormat);
-    for (int i = 0; i < n - 1; ++i) {
-        if (strFormat[i] == ' ' && strFormat[i + 1] == '.') {
-            char t = strFormat[i];
-            strFormat[i] = strFormat[i + 1];
-            strFormat[i + 1] = t;
+    int idx = 0;
+    bool word = false;
+    int n = strlen(str);
+    for (int i = 0; i < n; ++i) {
+        if (str[i] == ' ') {
+            if (word)
+                str[idx++] = ' ';
+            word = false;
+        } else {
+            str[idx++] = str[i];
+            if (str[i] == '.') {
+                word = false;
+            } else {
+                word = true;
+            }
         }
     }
 
-    puts(strFormat);
+    str[idx] = '\0';
+    n = strlen(str);
+    for (int i = 0; i < n; ++i) {
+        if (str[i] == ' ' && str[i + 1] == '.') {
+            str[i] = '.';
+            str[i + 1] = ' ';
+        }
+    }
+
+    puts(str);
     return 0;
 }
